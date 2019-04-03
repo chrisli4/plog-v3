@@ -11,8 +11,9 @@
   - [ ] Refresh list on pulldown 
 
 - [ ] Discover Screen
-  
-- [ ] Search Screen
+  - [ ] Show latest plant posts.
+
+- [ ] Follow / Search Users
 
 - [ ] Plants
   - [ ] Create - Add plant to user's home screen.
@@ -27,3 +28,31 @@
 
 - [ ] Server-Side
   - [ ] Validate CRUD actions server-side.
+
+
+### Example Object Structures
+
+plant: {
+  name: '',
+  species: '',
+  genus: '',
+  text: '',
+  image: '',
+  author: {
+    full_name: '',
+    profile_picture: '',
+  },
+  uid: '',
+  timestamp: '',
+}
+
+post: {
+  pid: '',
+  text: '',
+  image: '',
+  timestamp: '',
+  author: {
+    full_name: '',
+    profile_picture: '',
+  }
+}
