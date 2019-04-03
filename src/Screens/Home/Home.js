@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FlatList, RefreshControl, SafeAreaView, Text } from 'react-native';
+import { getPlantSuccess } from '../../Actions/plant';
 import { getPlants, refreshPlants } from '../../Actions/plants';
+import { pickPhoto } from '../../Actions/photo';
 
 class Home extends PureComponent {
   static propTypes = {
@@ -27,7 +29,11 @@ class Home extends PureComponent {
     refreshPlants(uid);
   };
 
-  onSelect = () => {};
+  onSelect = plant => {
+    const { navigation, getPlantSuccess } = this.props;
+    getPlantSuccess(plant);
+    navigation.navigate('Plant');
+  };
 
   onAdd = () => {
     const { pickPhoto } = this.props;
@@ -49,7 +55,7 @@ class Home extends PureComponent {
           data={plants}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Text onPress={this.onSelect}>{item.id}</Text>
+            <Text onPress={() => this.onSelect(item)}>{item.id}</Text>
           )}
           onEndReached={this.onGet}
           showsVerticalScrollIndicator={false}
@@ -71,6 +77,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getPlants,
+  getPlantSuccess,
+  pickPhoto,
   refreshPlants,
 };
 

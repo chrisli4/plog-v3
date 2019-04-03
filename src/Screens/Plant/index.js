@@ -1,3 +1,4 @@
+import Plant from './Plant';
 import NewPlant from './NewPlant';
 
-export { NewPlant };
+export { Plant, NewPlant };
