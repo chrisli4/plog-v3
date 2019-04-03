@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { Button, TextInput, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
@@ -9,8 +9,12 @@ class Login extends PureComponent {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string.isRequired,
-    signUpSuccess: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+    signUpSuccess: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    error: '',
   };
 
   state = {
@@ -42,21 +46,21 @@ class Login extends PureComponent {
   };
 
   render() {
-    const { errorMessage, signUpSuccess } = this.props;
+    const { error, signUpSuccess } = this.props;
     const { email, password } = this.state;
     return (
-      <View>
+      <SafeAreaView>
         <TextInput onChangeText={this.onEditEmail} value={email} />
         <TextInput onChangeText={this.onEditPassword} value={password} />
         <Button title="Login" onPress={this.onLogin} />
         <Button title="SignUp" onPress={this.onRedirect} />
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  errorMessage: state.auth.errorMessage,
+  error: state.auth.error,
   signUpSuccess: state.auth.signUpSuccess,
 });
 

@@ -1,6 +1,6 @@
 import { all, call, fork, put, take, takeEvery } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
-import { Firebase } from '../Services/Firebase';
+import Fire from '../Services/Firebase';
 import NavigationService from '../Services/NavigationService';
 import {
   LOGIN_REQUEST,
@@ -20,7 +20,7 @@ import {
 function* loginSaga(action) {
   try {
     const { username, password } = action.payload;
-    const auth = Firebase.auth();
+    const { auth } = Fire.shared;
     yield call([auth, auth.signInWithEmailAndPassword], username, password);
     yield put(loginSuccess());
   } catch (error) {
@@ -31,7 +31,7 @@ function* loginSaga(action) {
 function* signUpSaga(action) {
   try {
     const { username, password } = action.payload;
-    const auth = Firebase.auth();
+    const { auth } = Fire.shared;
     yield call([auth, auth.createUserWithEmailAndPassword], username, password);
     yield put(signUpSuccess());
     yield call(NavigationService.navigate, 'Auth');
@@ -42,7 +42,7 @@ function* signUpSaga(action) {
 
 function* logoutSaga() {
   try {
-    const auth = Firebase.auth();
+    const { auth } = Fire.shared;
     yield call([auth, auth.signOut]);
     yield put(logoutSuccess());
   } catch (error) {
@@ -52,7 +52,7 @@ function* logoutSaga() {
 
 function authChannel() {
   return eventChannel(emit => {
-    const unsubscribe = Firebase.auth().onAuthStateChanged(
+    const unsubscribe = Fire.shared.auth.onAuthStateChanged(
       user => emit({ user }),
       error => emit({ error })
     );
