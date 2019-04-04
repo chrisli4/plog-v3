@@ -14,3 +14,12 @@ export const getPostsSuccess = createAction(
 );
 
 export const getPostsFailure = createAction(types.POSTS_GET_FAILURE);
+
+export const refreshPosts = createAction(types.POSTS_REFRESH_REQUEST);
+
+export const refreshPostsSuccess = createAction(
+  types.POSTS_REFRESH_SUCCESS,
+  (items, cursor) => ({ items, cursor })
+);
+
+export const refreshPostsFailure = createAction(types.POSTS_REFRESH_FAILURE);

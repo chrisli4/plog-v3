@@ -56,9 +56,9 @@ class Home extends PureComponent {
           style={{ flex: 1 }}
           refreshControl={
             <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.onRefresh}
-            />
+  refreshing={refreshing}
+  onRefresh={this.onRefresh}
+/>
           }
           data={plants}
           keyExtractor={item => item.id}

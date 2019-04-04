@@ -1,23 +1,26 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FlatList, View, Text } from 'react-native';
-import { getPosts } from '../../Actions/posts';
+import { FlatList, View, RefreshControl, Text } from 'react-native';
+import { getPosts, refreshPosts } from '../../Actions/posts';
 
 class Posts extends PureComponent {
   static propTypes = {
     getPosts: PropTypes.func.isRequired,
   };
 
-  onGetPosts = () => {
+  onGet = () => {
     const { getPosts, cursor } = this.props;
     getPosts(cursor);
   };
 
-  onRefreshPosts = () => {};
+  onRefresh = () => {
+    const { refreshPosts } = this.props;
+    refreshPosts();
+  };
 
   render() {
-    const { posts } = this.props;
+    const { posts, refreshing } = this.props;
     return (
       <View
         style={{
@@ -27,14 +30,20 @@ class Posts extends PureComponent {
           alignItems: 'center',
         }}
       >
-        <Text onPress={this.onRefreshPosts}>Refresh</Text>
+        <Text onPress={this.onRefresh}>Refresh</Text>
         <FlatList
           data={posts}
+          refreshControl={
+            <RefreshControl
+  refreshing={refreshing}
+  onRefresh={this.onRefresh}
+/>
+          }
           keyExtractor={item => item.id}
           renderItem={({ item }) => <Text>{item.id}</Text>}
           showsVerticalScrollIndicator={false}
         />
-        <Text onPress={this.onGetPosts}>Get Posts</Text>
+        <Text onPress={this.onGet}>Get Posts</Text>
       </View>
     );
   }
@@ -43,10 +52,12 @@ class Posts extends PureComponent {
 const mapStateToProps = state => ({
   posts: state.posts.items,
   cursor: state.posts.cursor,
+  refreshing: state.posts.refreshing,
 });
 
 const mapDispatchToProps = {
   getPosts,
+  refreshPosts,
 };
 
 export default connect(

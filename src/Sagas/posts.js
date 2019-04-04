@@ -1,7 +1,12 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import Fire from '../Services/Firebase';
-import { POSTS_GET_REQUEST } from '../Constants/posts';
-import { getPostsSuccess, getPostsFailure } from '../Actions/posts';
+import { POSTS_GET_REQUEST, POSTS_REFRESH_REQUEST } from '../Constants/posts';
+import {
+  getPostsSuccess,
+  getPostsFailure,
+  refreshPostsSuccess,
+  refreshPostsFailure,
+} from '../Actions/posts';
 
 function* getPostsSaga(action) {
   try {
@@ -24,6 +29,21 @@ function* getPostsSaga(action) {
   }
 }
 
+function* refreshPostsSaga() {
+  try {
+    const { data, cursor } = yield call(
+      [Fire.shared, Fire.shared.getPosts],
+      null
+    );
+    yield put(refreshPostsSuccess(data, cursor));
+  } catch (error) {
+    yield put(refreshPostsFailure(error));
+  }
+}
+
 export default function* postsRoot() {
-  yield all([takeLatest(POSTS_GET_REQUEST, getPostsSaga)]);
+  yield all([
+    takeLatest(POSTS_GET_REQUEST, getPostsSaga),
+    takeLatest(POSTS_REFRESH_REQUEST, refreshPostsSaga),
+  ]);
 }
