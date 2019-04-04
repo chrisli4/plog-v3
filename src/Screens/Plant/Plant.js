@@ -35,10 +35,7 @@ class Plant extends PureComponent {
         }}
       >
         <Text>{name}</Text>
-        <Image
-          source={{ uri: image }}
-          style={{ height: 300, width: 400 }}
-        />
+        <Image source={{ uri: image }} style={{ height: 300, width: 400 }} />
         <FlatList
           data={posts}
           extraData={this.props}

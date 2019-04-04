@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import {
+  CLEAR_ERROR,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -39,3 +40,5 @@ export const signUpFailure = createAction(SIGNUP_FAILURE);
 export const syncUser = createAction(SYNC_USER, user => ({
   user,
 }));
+
+export const clearError = createAction(CLEAR_ERROR);

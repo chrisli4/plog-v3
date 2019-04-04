@@ -1,14 +1,19 @@
 import React, { PureComponent } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { Button, Text, TextInput, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { signUp } from '../../Actions/auth';
+import { signUp, clearError } from '../../Actions/auth';
 
 class SignUp extends PureComponent {
   static propTypes = {
     signUp: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
+    error: PropTypes.string,
+  };
+
+  static defaultProps = {
+    error: null,
   };
 
   state = {
@@ -35,28 +40,38 @@ class SignUp extends PureComponent {
   };
 
   onRedirect = () => {
-    const { navigation } = this.props;
+    const { navigation, clearError } = this.props;
+    clearError();
     navigation.navigate('Login');
   };
 
   render() {
+    const { error } = this.props;
     const { email, password } = this.state;
     return (
-      <View>
+      <SafeAreaView>
+        {
+          error && <Text>{ error }</Text>
+        }
         <TextInput onChangeText={this.onEditEmail} value={email} />
         <TextInput onChangeText={this.onEditPassword} value={password} />
         <Button title="SignUp" onPress={this.onSignUp} />
         <Button title="Login" onPress={this.onRedirect} />
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  error: state.auth.error,
+});
+
 const mapDispatchToProps = {
   signUp,
+  clearError,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withNavigation(SignUp));

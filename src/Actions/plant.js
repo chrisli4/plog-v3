@@ -49,11 +49,20 @@ export const getPostsFailure = createAction(
   })
 );
 
-export const addPost = createAction(types.PLANT_ADD_POST_REQUEST, (post, photo) => ({
-  post,
-  photo,
-}));
+export const addPost = createAction(
+  types.PLANT_ADD_POST_REQUEST,
+  (post, photo) => ({
+    post,
+    photo,
+  })
+);
 
-export const addPostSuccess = createAction(types.PLANT_ADD_POST_SUCCESS, id => ({ id }));
+export const addPostSuccess = createAction(
+  types.PLANT_ADD_POST_SUCCESS,
+  id => ({ id })
+);
 
-export const addPostFailure = createAction(types.PLANT_ADD_POST_FAILURE, error => ({ error }));
+export const addPostFailure = createAction(
+  types.PLANT_ADD_POST_FAILURE,
+  error => ({ error })
+);

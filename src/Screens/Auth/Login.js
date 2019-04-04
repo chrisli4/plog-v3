@@ -1,20 +1,19 @@
 import React, { PureComponent } from 'react';
-import { Button, TextInput, SafeAreaView } from 'react-native';
+import { Button, Text, TextInput, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { login } from '../../Actions/auth';
+import { login, clearError } from '../../Actions/auth';
 
 class Login extends PureComponent {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
     error: PropTypes.string,
-    signUpSuccess: PropTypes.bool,
   };
 
   static defaultProps = {
-    error: '',
+    error: null,
   };
 
   state = {
@@ -41,15 +40,19 @@ class Login extends PureComponent {
   };
 
   onRedirect = () => {
-    const { navigation } = this.props;
+    const { navigation, clearError } = this.props;
+    clearError();
     navigation.navigate('SignUp');
   };
 
   render() {
-    const { error, signUpSuccess } = this.props;
+    const { error } = this.props;
     const { email, password } = this.state;
     return (
       <SafeAreaView>
+        {
+          error && <Text>{ error }</Text>
+        }
         <TextInput onChangeText={this.onEditEmail} value={email} />
         <TextInput onChangeText={this.onEditPassword} value={password} />
         <Button title="Login" onPress={this.onLogin} />
@@ -61,10 +64,10 @@ class Login extends PureComponent {
 
 const mapStateToProps = state => ({
   error: state.auth.error,
-  signUpSuccess: state.auth.signUpSuccess,
 });
 
 const mapDispatchToProps = {
+  clearError,
   login,
 };
 

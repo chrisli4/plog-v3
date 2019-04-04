@@ -5,28 +5,30 @@ import { FlatList, RefreshControl, SafeAreaView, Text } from 'react-native';
 import { getPlantSuccess, getInitialPosts } from '../../Actions/plant';
 import { getPlants, refreshPlants } from '../../Actions/plants';
 import { pickPhoto } from '../../Actions/photo';
+import { logout } from '../../Actions/auth';
 
 class Home extends PureComponent {
   static propTypes = {
     cursor: PropTypes.any,
     getPlants: PropTypes.func.isRequired,
-    uid: PropTypes.string.isRequired,
+    user: PropTypes.object,
   };
 
   static defaultProps = {
     cursor: null,
+    user: {},
   };
 
   componentDidMount() {}
 
   onGet = () => {
-    const { getPlants, cursor, uid } = this.props;
-    getPlants(cursor, uid);
+    const { getPlants, cursor, user } = this.props;
+    getPlants(cursor, user.uid);
   };
 
   onRefresh = () => {
-    const { refreshPlants, uid } = this.props;
-    refreshPlants(uid);
+    const { refreshPlants, user } = this.props;
+    refreshPlants(user.uid);
   };
 
   onSelect = plant => {
@@ -39,6 +41,11 @@ class Home extends PureComponent {
   onAdd = () => {
     const { pickPhoto } = this.props;
     pickPhoto('NewPlant');
+  };
+
+  onLogout = () => {
+    const { logout } = this.props;
+    logout();
   };
 
   render() {
@@ -64,13 +71,14 @@ class Home extends PureComponent {
         />
         <Text onPress={this.onGet}>Get</Text>
         <Text onPress={this.onAdd}>Add</Text>
+        <Text onPress={this.onLogout}>Logout</Text>
       </SafeAreaView>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  uid: state.auth.user.uid,
+  user: state.auth.user,
   plants: state.plants.items,
   cursor: state.plants.cursor,
   refreshing: state.plants.refreshing,
@@ -80,6 +88,7 @@ const mapDispatchToProps = {
   getPlants,
   getPlantSuccess,
   getInitialPosts,
+  logout,
   pickPhoto,
   refreshPlants,
 };
