@@ -21,7 +21,7 @@ function* getPlantsSaga(action) {
     const list = yield select(state => state.plants.items);
 
     // If we're at the end of the list, return.
-    if (start === null && list.length > 0) return;
+    if (!start && list.length > 0) return;
     const { data, cursor } = yield call(
       [Fire.shared, Fire.shared.getPlants],
       start,

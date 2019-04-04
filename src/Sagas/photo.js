@@ -13,8 +13,11 @@ function* pickPhotoSaga(action) {
         ImagePicker,
         ImagePicker.launchImageLibraryAsync,
       ]);
-      yield put(pickPhotoSuccess(result));
-      NavigationService.navigate(action.payload.route);
+
+      if (!result.cancelled) {
+        yield put(pickPhotoSuccess(result));
+        NavigationService.navigate(action.payload.route);
+      }
     }
   } catch (error) {
     yield put(pickPhotoFailure(error));

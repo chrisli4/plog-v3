@@ -4,6 +4,7 @@ import {
 } from 'react-navigation';
 import { Home } from '../Screens/Home';
 import { Plant, NewPlant } from '../Screens/Plant';
+import { NewPost } from '../Screens/Post';
 
 const HomeStack = createStackNavigator(
   {
@@ -15,6 +16,9 @@ const HomeStack = createStackNavigator(
     },
     NewPlant: {
       screen: NewPlant,
+    },
+    NewPost: {
+      screen: NewPost,
     },
   },
   {}

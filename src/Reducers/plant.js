@@ -11,6 +11,7 @@ const initialState = {
   image: '',
   posts: [],
   cursor: null,
+  error: null,
 };
 
 export default handleActions(
@@ -26,15 +27,25 @@ export default handleActions(
       image: action.payload.plant.image,
     }),
 
+    [types.PLANT_GET_INITIAL_POSTS_REQUEST]: state => ({
+      ...state,
+      posts: [],
+      cursor: null,
+      error: null,
+    }),
+
+    [types.PLANT_GET_INITIAL_POSTS_SUCCESS]: (state, action) => ({
+      ...state,
+      posts: action.payload.items,
+      cursor: action.payload.cursor,
+      error: null,
+    }),
+
     [types.PLANT_GET_POSTS_SUCCESS]: (state, action) => ({
       ...state,
       posts: [...state.posts, ...action.payload.items],
       cursor: action.payload.cursor,
-    }),
-
-    [types.PLANT_CLEAR_ALL_POSTS]: state => ({
-      ...state,
-      posts: [],
+      error: null,
     }),
   },
   initialState
