@@ -50,9 +50,7 @@ class Login extends PureComponent {
     const { email, password } = this.state;
     return (
       <SafeAreaView>
-        {
-          error && <Text>{ error }</Text>
-        }
+        {error && <Text>{error}</Text>}
         <TextInput onChangeText={this.onEditEmail} value={email} />
         <TextInput onChangeText={this.onEditPassword} value={password} />
         <Button title="Login" onPress={this.onLogin} />
